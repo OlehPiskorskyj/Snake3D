@@ -55,36 +55,15 @@ class Terrain {
         }
     }
     
+    public func tearDown() {
+        meshVertexBuffer = nil
+        vertexBuffer = nil
+    }
+    
     // MARK: - private methods
     func initialize() {
         maxVertexCount = AppConsts.MAP_SIZE * AppConsts.MAP_SIZE * 6
         meshMaxVertexCount = AppConsts.MAP_SIZE * AppConsts.MAP_SIZE * 8
-        
-        /*
-        glGenVertexArraysOES(1, &vertexArray);
-        glBindVertexArrayOES(vertexArray);
-        glGenBuffers(1, &vertexBuffer);
-        glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
-        glEnableVertexAttribArray(GLKVertexAttribPosition);
-        glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
-        glEnableVertexAttribArray(GLKVertexAttribColor);
-        glVertexAttribPointer(GLKVertexAttribColor, 3, GL_FLOAT, GL_FALSE,  6 * sizeof(GLfloat), (char *)12);
-        
-        glGenVertexArraysOES(1, &meshVertexArray);
-        glBindVertexArrayOES(meshVertexArray);
-        glGenBuffers(1, &meshVertexBuffer);
-        glBindBuffer(GL_ARRAY_BUFFER, meshVertexBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(meshVertexData), meshVertexData, GL_STATIC_DRAW);
-        glEnableVertexAttribArray(GLKVertexAttribPosition);
-        glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
-        glEnableVertexAttribArray(GLKVertexAttribColor);
-        glVertexAttribPointer(GLKVertexAttribColor, 3, GL_FLOAT, GL_FALSE,  6 * sizeof(GLfloat), (char *)12);
-        
-        // bind with nothing
-        glBindVertexArrayOES(0);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        */
         
         var verBuffer = Array<Vertex>(repeating: Vertex.zero(), count: maxVertexCount)
         var bufferSize = verBuffer.count * MemoryLayout<Vertex>.size
@@ -101,7 +80,6 @@ class Terrain {
         vertexCount = 0
         meshVertexCount = 0
         
-        //let vertextCount = AppConsts.MAP_SIZE
         cellWidth = Toolbox.terrainCellSize()
         
         for i in 0..<(AppConsts.MAP_SIZE - 1) {

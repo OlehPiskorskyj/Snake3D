@@ -47,7 +47,7 @@ class Snake: MTKView {
     public var maxVertexCount = 0
     public var maxIndexCount = 0
     
-    public var zoom: Float = -5.0
+    public var zoom: Float = 0.0
     
     private var terrain: Terrain!
     
@@ -89,20 +89,10 @@ class Snake: MTKView {
         commandQueue = metalDevice.makeCommandQueue()
         self.device = metalDevice
         
-        lookAt = GLKMatrix4MakeLookAt(0.0, 2.0, 4.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
+        lookAt = GLKMatrix4MakeLookAt(0.0, 6.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
         
-        let projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0), fabsf(Float(self.bounds.width / self.bounds.height)), 0.1, 100.0);
+        let projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0), fabsf(Float(self.bounds.width / self.bounds.height)), 1.0, 100.0);
         sceneMatrices.projection = projectionMatrix
-        
-        /*
-        var verBuffer = Array<Vertex>(repeating: Vertex.zero(), count: maxVertexCount)
-        var bufferSize = verBuffer.count * MemoryLayout<Vertex>.size
-        vertexBuffer = metalDevice.makeBuffer(bytes: &verBuffer, length: bufferSize, options: .storageModeShared)
-        
-        var indBuffer = Array<UInt32>(repeating: 0, count: maxIndexCount)
-        bufferSize = indBuffer.count * MemoryLayout<UInt32>.size
-        indexBuffer = metalDevice.makeBuffer(bytes: &indBuffer, length: bufferSize, options: .storageModeShared)
-        */
         
         guard let defaultLibrary = metalDevice.makeDefaultLibrary() else { return }
         let fragmentProgram = defaultLibrary.makeFunction(name: "basic_fragment")
@@ -136,7 +126,7 @@ class Snake: MTKView {
     
     // MARK: - utilities
     func updateProjectionMatrix(aspectRatio: Float) {
-        let projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0), fabsf(aspectRatio), 0.1, 100.0);
+        let projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0), fabsf(aspectRatio), 1.0, 100.0);
         sceneMatrices.projection = projectionMatrix
         textureDepth = nil
         texture = nil
@@ -205,10 +195,9 @@ extension Snake: MTKViewDelegate {
         guard let commandBuffer = commandQueue.makeCommandBuffer() else { return }
         guard let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor) else { return }
         
-        lookAt = GLKMatrix4MakeLookAt(0.0, 2.0 - self.zoom, 4.0 - self.zoom, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
+        lookAt = GLKMatrix4Multiply(GLKMatrix4MakeLookAt(0.0, 6.0 - self.zoom, 6.0 - self.zoom, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0), GLKMatrix4MakeTranslation(0.0, 0.0, -1.5))
         
-        var modelView = GLKMatrix4Multiply(GLKMatrix4MakeScale(10.0, 1.0, 10.0), GLKMatrix4MakeRotation(0.0, 0.0, 1.0, 0.0))
-        modelView = GLKMatrix4Multiply(modelView, GLKMatrix4MakeTranslation(-0.5, 0.0, -0.5))
+        let modelView = GLKMatrix4Multiply(GLKMatrix4MakeScale(10.0, 1.0, 10.0), GLKMatrix4MakeTranslation(-0.5, 0.0, -0.5))
         sceneMatrices.modelview = GLKMatrix4Multiply(lookAt, modelView)
         let uniformBufferSize = MemoryLayout.size(ofValue: sceneMatrices)
         uniformBuffer = metalDevice.makeBuffer(bytes: &sceneMatrices, length: uniformBufferSize, options: .storageModeShared)
@@ -217,13 +206,6 @@ extension Snake: MTKViewDelegate {
         renderEncoder.setRenderPipelineState(pipelineState)
         
         terrain.draw(renderEncoder: renderEncoder)
-        
-        /*
-        if (vertexCount > 0) {
-            renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
-            renderEncoder.drawIndexedPrimitives(type: .line, indexCount: Int(indexCount), indexType: .uint32, indexBuffer: indexBuffer, indexBufferOffset: 0)
-        }
-        */
         
         renderEncoder.endEncoding()
         commandBuffer.present(drawable)
