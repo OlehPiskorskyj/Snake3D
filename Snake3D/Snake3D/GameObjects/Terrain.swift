@@ -48,11 +48,17 @@ class Terrain {
             renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
             renderEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: Int(vertexCount))
         }
+        
+        if (meshVertexCount > 0) {
+            renderEncoder.setVertexBuffer(meshVertexBuffer, offset: 0, index: 0)
+            renderEncoder.drawPrimitives(type: .line, vertexStart: 0, vertexCount: Int(meshVertexCount))
+        }
     }
     
     // MARK: - private methods
     func initialize() {
         maxVertexCount = AppConsts.MAP_SIZE * AppConsts.MAP_SIZE * 6
+        meshMaxVertexCount = AppConsts.MAP_SIZE * AppConsts.MAP_SIZE * 8
         
         /*
         glGenVertexArraysOES(1, &vertexArray);
@@ -84,11 +90,9 @@ class Terrain {
         var bufferSize = verBuffer.count * MemoryLayout<Vertex>.size
         vertexBuffer = metalDevice.makeBuffer(bytes: &verBuffer, length: bufferSize, options: .storageModeShared)
         
-        /*
-        var indBuffer = Array<UInt32>(repeating: 0, count: maxIndexCount)
-        bufferSize = indBuffer.count * MemoryLayout<UInt32>.size
-        indexBuffer = metalDevice.makeBuffer(bytes: &indBuffer, length: bufferSize, options: .storageModeShared)
-        */
+        var meshBuffer = Array<Vertex>(repeating: Vertex.zero(), count: meshMaxVertexCount)
+        bufferSize = meshBuffer.count * MemoryLayout<Vertex>.size
+        meshVertexBuffer = metalDevice.makeBuffer(bytes: &meshBuffer, length: bufferSize, options: .storageModeShared)
         
         self.createTerrain()
     }
@@ -118,43 +122,38 @@ class Terrain {
                 self.addVertex(vertex: &v2)
                 self.addVertex(vertex: &v4)
                 
-                /*
                 // change y and color for mesh
-                v1.position.y = 0.01f;
-                v2.position.y = 0.01f;
-                v3.position.y = 0.01f;
-                v4.position.y = 0.01f;
+                v1.y = 0.01
+                v2.y = 0.01
+                v3.y = 0.01
+                v4.y = 0.01
                 
-                v1.color = GLKVector3Make(1.0f, 1.0f, 1.0f);
-                v2.color = GLKVector3Make(1.0f, 1.0f, 1.0f);
-                v3.color = GLKVector3Make(1.0f, 1.0f, 1.0f);
-                v4.color = GLKVector3Make(1.0f, 1.0f, 1.0f);
+                v1.r = 1.0
+                v1.g = 1.0
+                v1.b = 1.0
+                v2.r = 1.0
+                v2.g = 1.0
+                v2.b = 1.0
+                v3.r = 1.0
+                v3.g = 1.0
+                v3.b = 1.0
+                v4.r = 1.0
+                v4.g = 1.0
+                v4.b = 1.0
                 
                 // first triangle mesh
-                addMeshVertex(&meshVertexArrayLength, v1);
-                addMeshVertex(&meshVertexArrayLength, v2);
-                
-                //addMeshVertex(&meshVertexArrayLength, v2);
-                //addMeshVertex(&meshVertexArrayLength, v3);
-                
-                addMeshVertex(&meshVertexArrayLength, v3);
-                addMeshVertex(&meshVertexArrayLength, v1);
+                self.addMeshVertex(vertex: &v1)
+                self.addMeshVertex(vertex: &v2)
+                self.addMeshVertex(vertex: &v3)
+                self.addMeshVertex(vertex: &v1)
                 
                 // second triangle mesh
-                addMeshVertex(&meshVertexArrayLength, v2);
-                addMeshVertex(&meshVertexArrayLength, v4);
-                
-                addMeshVertex(&meshVertexArrayLength, v4);
-                addMeshVertex(&meshVertexArrayLength, v3);
-                
-                //addMeshVertex(&meshVertexArrayLength, v3);
-                //addMeshVertex(&meshVertexArrayLength, v2);
-                */
+                self.addMeshVertex(vertex: &v2)
+                self.addMeshVertex(vertex: &v4)
+                self.addMeshVertex(vertex: &v4)
+                self.addMeshVertex(vertex: &v3)
             }
         }
     }
-
-
-    
 }
 
