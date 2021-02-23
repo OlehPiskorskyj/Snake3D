@@ -50,6 +50,7 @@ class Snake: MTKView {
     public var zoom: Float = 0.0
     
     private var terrain: Terrain!
+    private var apple: Apple!
     
     // MARK: - ctors
     override public init(frame frameRect: CGRect, device: MTLDevice?) {
@@ -78,10 +79,21 @@ class Snake: MTKView {
         self.depthStencilPixelFormat = .depth32Float
         
         self.setupMetal()
-        
-        terrain = Terrain(device: metalDevice)
+        self.initializeGameObjects()
         
         self.delegate = self
+    }
+    
+    func initializeGameObjects() {
+        terrain = Terrain(device: metalDevice)
+        //mPlayer = [[SnakePlayer alloc] initWithColumn:5 Row:5];
+        //[mPlayer setDelegate:self];
+        
+        //CGPoint appleStartPosition = [SnakeUtility randomPositionOnTerrainButNot:[mPlayer cellsUnderSnake]];
+        let appleStartPosition = Toolbox.randomPositionOnTerrain()
+        apple = Apple(column: appleStartPosition.x, row: appleStartPosition.y, device: metalDevice)
+        
+        //[mPlayer setApple:mApple];
     }
     
     func setupMetal() {
@@ -206,6 +218,8 @@ extension Snake: MTKViewDelegate {
         renderEncoder.setRenderPipelineState(pipelineState)
         
         terrain.draw(renderEncoder: renderEncoder)
+        //[mPlayer drawWithEffect:mBaseEffect];
+        apple.draw(renderEncoder: renderEncoder)
         
         renderEncoder.endEncoding()
         commandBuffer.present(drawable)

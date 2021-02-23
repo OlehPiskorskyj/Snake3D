@@ -17,7 +17,6 @@ class Cube {
     public var x: Float = 0.0
     public var z: Float = 0.0
     public var size: Float = 0.0
-    public var color = simd_float4(x: 0.0, y: 0.0, z: 0.0, w: 0.0)
     
     private let cubeIndices: [UInt32] = [
         0, 1, 2, 2, 1, 3,
@@ -39,19 +38,18 @@ class Cube {
         self.x = x
         self.z = z
         self.size = size
-        self.color = color
         self.metalDevice = device
         
         let vertexData: [Float] = [
-            0.0, size, 0.0,
-            0.0, size, size,
-            size, size, 0.0,
-            size, size, size,
+            0.0, size, 0.0, color.x, color.y, color.z,
+            0.0, size, size, color.x, color.y, color.z,
+            size, size, 0.0, color.x, color.y, color.z,
+            size, size, size, color.x, color.y, color.z,
             
-            0.0, 0.0, 0.0,
-            0.0, 0.0, size,
-            size, 0.0, 0.0,
-            size, 0.0, size
+            0.0, 0.0, 0.0, color.x, color.y, color.z,
+            0.0, 0.0, size, color.x, color.y, color.z,
+            size, 0.0, 0.0, color.x, color.y, color.z,
+            size, 0.0, size, color.x, color.y, color.z
         ]
         
         var dataSize = vertexData.count * MemoryLayout.size(ofValue: vertexData[0])
@@ -64,16 +62,22 @@ class Cube {
     // MARK: - public methods
     public func draw(renderEncoder: MTLRenderCommandEncoder) {
         /*
-        if (vertexCount > 0) {
-            renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
-            renderEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: Int(vertexCount))
-        }
-        
-        if (meshVertexCount > 0) {
-            renderEncoder.setVertexBuffer(meshVertexBuffer, offset: 0, index: 0)
-            renderEncoder.drawPrimitives(type: .line, vertexStart: 0, vertexCount: Int(meshVertexCount))
-        }
+        GLKMatrix4 lookAt = *([[SnakeCamera instance] getLookAtMatrix]);
+        GLKMatrix4 modelView = GLKMatrix4Multiply([SnakeConfig scaleMatrixXYZ], GLKMatrix4Multiply(GLKMatrix4MakeTranslation(-0.5f, 0.0f, -0.5f), GLKMatrix4MakeTranslation(mX, 0.002f, mZ)));
         */
+        
+        /*
+        glBindVertexArrayOES(mVertexArray);
+        glBindBuffer(GL_ARRAY_BUFFER, mVertexBuffer);
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, cubeIndices);
+        
+        effect.constantColor = GLKVector4Make(0.0f, 0.0f, 0.0f, 1.0f);
+        [effect prepareToDraw];
+        glDrawElements(GL_LINES, 24, GL_UNSIGNED_BYTE, meshIndices);
+        */
+        
+        renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        renderEncoder.drawIndexedPrimitives(type: .triangle, indexCount: 36, indexType: .uint32, indexBuffer: cubeIndexBuffer, indexBufferOffset: 0)
     }
     
     public func tearDown() {
