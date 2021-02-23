@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="euB-mx-ZqB">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -15,8 +16,19 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mtkView contentMode="scaleToFill" colorPixelFormat="BGRA8Unorm" depthStencilPixelFormat="Depth32Float" translatesAutoresizingMaskIntoConstraints="NO" id="Ii3-Ta-9M0" customClass="Snake" customModule="Snake3D" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </mtkView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Ii3-Ta-9M0" secondAttribute="trailing" id="IYH-wv-XXc"/>
+                            <constraint firstItem="Ii3-Ta-9M0" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="c7O-cU-o0J"/>
+                            <constraint firstAttribute="bottom" secondItem="Ii3-Ta-9M0" secondAttribute="bottom" id="gWK-ca-0S2"/>
+                            <constraint firstItem="Ii3-Ta-9M0" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="hd2-3v-gQg"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="SoM-RW-IDS"/>
                 </viewController>
@@ -29,6 +41,8 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="euB-mx-ZqB" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="yK2-qD-tEa">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

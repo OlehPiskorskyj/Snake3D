@@ -14,6 +14,10 @@
 		033C45B925E4F8F800B07C70 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 033C45B725E4F8F800B07C70 /* LaunchScreen.storyboard */; };
 		033C45C725E4FC5200B07C70 /* Snake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C45C625E4FC5200B07C70 /* Snake.swift */; };
 		033C45CB25E4FCE200B07C70 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C45CA25E4FCE200B07C70 /* Main.swift */; };
+		03D887BF25E504040001FF66 /* Terrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D887BE25E504040001FF66 /* Terrain.swift */; };
+		03D887C225E5074F0001FF66 /* AppConsts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D887C125E5074F0001FF66 /* AppConsts.swift */; };
+		03D887C625E50CBE0001FF66 /* Toolbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D887C525E50CBE0001FF66 /* Toolbox.swift */; };
+		03D887CA25E51BDD0001FF66 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 03D887C925E51BDD0001FF66 /* Shaders.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +30,10 @@
 		033C45BA25E4F8F800B07C70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		033C45C625E4FC5200B07C70 /* Snake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snake.swift; sourceTree = "<group>"; };
 		033C45CA25E4FCE200B07C70 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
+		03D887BE25E504040001FF66 /* Terrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Terrain.swift; sourceTree = "<group>"; };
+		03D887C125E5074F0001FF66 /* AppConsts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConsts.swift; sourceTree = "<group>"; };
+		03D887C525E50CBE0001FF66 /* Toolbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbox.swift; sourceTree = "<group>"; };
+		03D887C925E51BDD0001FF66 /* Shaders.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +79,7 @@
 		033C45C225E4FAC800B07C70 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				03D887C925E51BDD0001FF66 /* Shaders.metal */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -80,8 +89,10 @@
 			children = (
 				033C45AC25E4F8F700B07C70 /* AppDelegate.swift */,
 				033C45AE25E4F8F700B07C70 /* SceneDelegate.swift */,
+				03D887C125E5074F0001FF66 /* AppConsts.swift */,
 				033C45B225E4F8F700B07C70 /* Main.storyboard */,
 				033C45B725E4F8F800B07C70 /* LaunchScreen.storyboard */,
+				03D887C525E50CBE0001FF66 /* Toolbox.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -89,6 +100,7 @@
 		033C45C425E4FB2B00B07C70 /* GameObjects */ = {
 			isa = PBXGroup;
 			children = (
+				03D887BE25E504040001FF66 /* Terrain.swift */,
 			);
 			path = GameObjects;
 			sourceTree = "<group>";
@@ -172,10 +184,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03D887CA25E51BDD0001FF66 /* Shaders.metal in Sources */,
 				033C45CB25E4FCE200B07C70 /* Main.swift in Sources */,
 				033C45C725E4FC5200B07C70 /* Snake.swift in Sources */,
+				03D887BF25E504040001FF66 /* Terrain.swift in Sources */,
+				03D887C625E50CBE0001FF66 /* Toolbox.swift in Sources */,
 				033C45AD25E4F8F700B07C70 /* AppDelegate.swift in Sources */,
 				033C45AF25E4F8F700B07C70 /* SceneDelegate.swift in Sources */,
+				03D887C225E5074F0001FF66 /* AppConsts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,7 +268,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -307,7 +323,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
