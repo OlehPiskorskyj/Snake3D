@@ -28,7 +28,7 @@ class SnakePart: Cube {
         self.row = row
         
         let position = Toolbox.gameObjectPosition(column: column, row: row)
-        //[super setPositionWithX:position.x Z:position.y];
+        super.setPosition(x: Float(position.x), z: Float(position.y))
     }
     
 }

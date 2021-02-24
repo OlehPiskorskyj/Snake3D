@@ -29,27 +29,25 @@ class Player {
         if (elapsedTime > AppConsts.MOVEMENT_DELAY) {
             elapsedTime = 0
             
-            /*
-            SnakePart *head = [mSnake objectAtIndex:0];
-            SnakePart *tail = [mSnake objectAtIndex:[mSnake count] - 1];
-            [tail retain];
+            let head = snake[0]
+            let tail = snake[snake.count - 1]
             
-            if (mDirection == Up)
-                [tail setPositionWithColumn:[head getColumn] Row:[head getRow] - 1];
-            else if (mDirection == Down)
-                [tail setPositionWithColumn:[head getColumn] Row:[head getRow] + 1];
-            else if (mDirection == Left)
-                [tail setPositionWithColumn:[head getColumn] - 1 Row:[head getRow]];
-            else if (mDirection == Right)
-                [tail setPositionWithColumn:[head getColumn] + 1 Row:[head getRow]];
+            switch direction {
+            case .up:
+                tail.setPosition(column: head.column, row: head.row - 1)
+            case .down:
+                tail.setPosition(column: head.column, row: head.row + 1)
+            case .left:
+                tail.setPosition(column: head.column - 1, row: head.row)
+            case .right:
+                tail.setPosition(column: head.column + 1, row: head.row)
+            }
             
-            [mSnake removeObjectAtIndex:[mSnake count] - 1];
-            [mSnake insertObject:tail atIndex:0];
-            [tail release];
+            snake.remove(at: snake.count - 1)
+            snake.insert(tail, at: 0)
             
-            [self eatAppleTest];
-            [self collisionTest];
-            */
+            self.eatAppleTest()
+            self.collisionTest()
         }
     }
 
@@ -57,5 +55,14 @@ class Player {
         for part in self.snake {
             part.draw(renderEncoder: renderEncoder, lookAt: lookAt, sceneMatrices: &sceneMatrices)
         }
+    }
+    
+    // MARK: - other methods
+    private func collisionTest() {
+        
+    }
+    
+    private func eatAppleTest() {
+        
     }
 }

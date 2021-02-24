@@ -95,6 +95,11 @@ class Cube {
         renderEncoder.drawIndexedPrimitives(type: .line, indexCount: 24, indexType: .uint32, indexBuffer: meshIndexBuffer, indexBufferOffset: 0)
     }
     
+    public func setPosition(x: Float, z: Float) {
+        self.x = x
+        self.z = z
+    }
+    
     public func tearDown() {
         meshVertexBuffer = nil
         vertexBuffer = nil
