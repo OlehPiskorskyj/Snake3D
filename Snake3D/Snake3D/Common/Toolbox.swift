@@ -7,15 +7,15 @@
 
 import UIKit
 
+// MARK: - enums
+public enum Direction: Int {
+    case up
+    case down
+    case left
+    case right
+}
+
 class Toolbox {
-    
-    // MARK: - enums
-    public enum Direction: Int {
-        case up
-        case down
-        case left
-        case right
-    }
     
     // MARK: - methods
     public static func positionFromTerrainCell(i: Int, j: Int) -> CGPoint {
@@ -40,7 +40,6 @@ class Toolbox {
     public static func randomPositionOnTerrain() -> (x: Int, y: Int) {
         let i = arc4random() % 10
         let j = arc4random() % 10
-        print(i, j)
         return (Int(i), Int(j))
     }
     

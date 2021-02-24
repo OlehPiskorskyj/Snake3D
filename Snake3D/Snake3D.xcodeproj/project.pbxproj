@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0331AB9325E65D6F0000702D /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0331AB9225E65D6F0000702D /* Player.swift */; };
+		0331AB9725E660440000702D /* SnakePart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0331AB9625E660440000702D /* SnakePart.swift */; };
 		033C45AD25E4F8F700B07C70 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C45AC25E4F8F700B07C70 /* AppDelegate.swift */; };
 		033C45AF25E4F8F700B07C70 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C45AE25E4F8F700B07C70 /* SceneDelegate.swift */; };
 		033C45B425E4F8F700B07C70 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 033C45B225E4F8F700B07C70 /* Main.storyboard */; };
@@ -24,6 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0331AB9225E65D6F0000702D /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		0331AB9625E660440000702D /* SnakePart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnakePart.swift; sourceTree = "<group>"; };
 		033C45A925E4F8F700B07C70 /* Snake3D.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Snake3D.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		033C45AC25E4F8F700B07C70 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		033C45AE25E4F8F700B07C70 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -108,6 +112,8 @@
 			isa = PBXGroup;
 			children = (
 				03D887BE25E504040001FF66 /* Terrain.swift */,
+				0331AB9225E65D6F0000702D /* Player.swift */,
+				0331AB9625E660440000702D /* SnakePart.swift */,
 				037610FD25E5409A0053143F /* Cube.swift */,
 				0376110025E552FC0053143F /* Apple.swift */,
 			);
@@ -197,10 +203,12 @@
 				033C45CB25E4FCE200B07C70 /* Main.swift in Sources */,
 				033C45C725E4FC5200B07C70 /* Snake.swift in Sources */,
 				03D887BF25E504040001FF66 /* Terrain.swift in Sources */,
+				0331AB9325E65D6F0000702D /* Player.swift in Sources */,
 				034A41A225E57EEE0067B410 /* Config.swift in Sources */,
 				0376110125E552FC0053143F /* Apple.swift in Sources */,
 				03D887C625E50CBE0001FF66 /* Toolbox.swift in Sources */,
 				037610FE25E5409A0053143F /* Cube.swift in Sources */,
+				0331AB9725E660440000702D /* SnakePart.swift in Sources */,
 				033C45AD25E4F8F700B07C70 /* AppDelegate.swift in Sources */,
 				033C45AF25E4F8F700B07C70 /* SceneDelegate.swift in Sources */,
 				03D887C225E5074F0001FF66 /* AppConsts.swift in Sources */,

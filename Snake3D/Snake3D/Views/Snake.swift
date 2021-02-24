@@ -48,8 +48,11 @@ class Snake: MTKView {
     public var maxIndexCount = 0
     
     public var zoom: Float = 0.0
+    public var prevTime: TimeInterval = 0.0
+    //@private NSTimeInterval mPrevTime;
     
     private var terrain: Terrain!
+    private var player: Player!
     private var apple: Apple!
     
     // MARK: - ctors
@@ -78,6 +81,8 @@ class Snake: MTKView {
         self.sampleCount = 4
         self.depthStencilPixelFormat = .depth32Float
         
+        prevTime = Date().timeIntervalSince1970
+        
         self.setupMetal()
         self.initializeGameObjects()
         
@@ -86,7 +91,7 @@ class Snake: MTKView {
     
     func initializeGameObjects() {
         terrain = Terrain(device: metalDevice)
-        //mPlayer = [[SnakePlayer alloc] initWithColumn:5 Row:5];
+        player = Player(column: 5, row: 5, device: metalDevice)
         //[mPlayer setDelegate:self];
         
         //CGPoint appleStartPosition = [SnakeUtility randomPositionOnTerrainButNot:[mPlayer cellsUnderSnake]];
@@ -101,7 +106,8 @@ class Snake: MTKView {
         commandQueue = metalDevice.makeCommandQueue()
         self.device = metalDevice
         
-        lookAt = GLKMatrix4MakeLookAt(0.0, 6.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
+        //lookAt = GLKMatrix4MakeLookAt(0.0, 6.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
+        lookAt = GLKMatrix4Multiply(GLKMatrix4MakeLookAt(0.0, 6.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0), GLKMatrix4MakeTranslation(0.0, 0.0, -1.5))
         
         let projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0), fabsf(Float(self.bounds.width / self.bounds.height)), 1.0, 100.0);
         sceneMatrices.projection = projectionMatrix
@@ -134,6 +140,11 @@ class Snake: MTKView {
         indexBuffer = nil
         textureDepth = nil
         texture = nil
+    }
+    
+    // MARK: - game cycle
+    func update(timeElapsed: Double) {
+        player.update(timeElapsed: timeElapsed)
     }
     
     // MARK: - utilities
@@ -202,6 +213,11 @@ extension Snake: MTKViewDelegate {
         return
         #else
         
+        let timeNow = Date().timeIntervalSince1970
+        let timeElapsed = abs(prevTime - timeNow)
+        prevTime = timeNow
+        self.update(timeElapsed: timeElapsed)
+        
         guard let drawable = view.currentDrawable else { return }
         let renderPassDescriptor = self.createRenderPassDescriptor(drawable: drawable)
         guard let commandBuffer = commandQueue.makeCommandBuffer() else { return }
@@ -210,10 +226,10 @@ extension Snake: MTKViewDelegate {
         renderEncoder.setDepthStencilState(depthStencilState)
         renderEncoder.setRenderPipelineState(pipelineState)
         
-        lookAt = GLKMatrix4Multiply(GLKMatrix4MakeLookAt(0.0, 6.0 - self.zoom, 6.0 - self.zoom, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0), GLKMatrix4MakeTranslation(0.0, 0.0, -1.5))
+        //lookAt = GLKMatrix4Multiply(GLKMatrix4MakeLookAt(0.0, 6.0 - self.zoom, 6.0 - self.zoom, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0), GLKMatrix4MakeTranslation(0.0, 0.0, -1.5))
         
         terrain.draw(renderEncoder: renderEncoder, lookAt: lookAt, sceneMatrices: &sceneMatrices)
-        //[mPlayer drawWithEffect:mBaseEffect];
+        player.draw(renderEncoder: renderEncoder, lookAt: lookAt, sceneMatrices: &sceneMatrices)
         apple.draw(renderEncoder: renderEncoder, lookAt: lookAt, sceneMatrices: &sceneMatrices)
         
         renderEncoder.endEncoding()
