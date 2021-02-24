@@ -159,7 +159,7 @@ class Snake: MTKView {
     }
     
     func initializeGameObjects() {
-        terrain = Terrain(device: metalDevice)
+        terrain = Terrain()
         player = Player(column: 5, row: 5)
         player.gameOver = {
             print("Game Over")

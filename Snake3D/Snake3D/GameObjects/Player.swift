@@ -84,6 +84,12 @@ class Player {
         return returnValue
     }
     
+    public func tearDown() {
+        for part in self.snake {
+            part.tearDown()
+        }
+    }
+    
     // MARK: - other methods
     private func collisionTest() {
         let head = snake[0]

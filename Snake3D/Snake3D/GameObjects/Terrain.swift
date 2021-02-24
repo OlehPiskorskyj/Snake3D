@@ -11,7 +11,6 @@ import GLKit
 class Terrain {
 
     // MARK: - props
-    private var metalDevice: MTLDevice!
     private var meshVertexBuffer: MTLBuffer!
     private var vertexBuffer: MTLBuffer!
     private var meshVertexCount: UInt32 = 0
@@ -21,8 +20,7 @@ class Terrain {
     private var cellWidth: Float = 0.0
     
     // MARK: - ctors
-    init(device: MTLDevice) {
-        self.metalDevice = device
+    init() {
         self.initialize()
     }
     
@@ -43,8 +41,17 @@ class Terrain {
         }
     }
     
+    func prepareVertex4Mesh(vertex: inout Vertex) {
+        vertex.y = 0.01
+        vertex.r = 1.0
+        vertex.g = 1.0
+        vertex.b = 1.0
+    }
+    
     // MARK: - public methods
     public func draw(renderEncoder: MTLRenderCommandEncoder, lookAt: GLKMatrix4, sceneMatrices: inout SceneMatrices) {
+        guard let metalDevice = Config.instance.metalDevice else { return }
+        
         let modelView = GLKMatrix4Multiply(Config.scaleMatrixXZ(), GLKMatrix4MakeTranslation(-0.5, 0.0, -0.5))
         sceneMatrices.modelview = GLKMatrix4Multiply(lookAt, modelView)
         let uniformBufferSize = MemoryLayout.size(ofValue: sceneMatrices)
@@ -71,6 +78,8 @@ class Terrain {
     func initialize() {
         maxVertexCount = AppConsts.MAP_SIZE * AppConsts.MAP_SIZE * 6
         meshMaxVertexCount = AppConsts.MAP_SIZE * AppConsts.MAP_SIZE * 8
+        
+        guard let metalDevice = Config.instance.metalDevice else { return }
         
         var verBuffer = Array<Vertex>(repeating: Vertex.zero(), count: maxVertexCount)
         var bufferSize = verBuffer.count * MemoryLayout<Vertex>.size
@@ -108,23 +117,10 @@ class Terrain {
                 self.addVertex(vertex: &v4)
                 
                 // change y and color for mesh
-                v1.y = 0.01
-                v2.y = 0.01
-                v3.y = 0.01
-                v4.y = 0.01
-                
-                v1.r = 1.0
-                v1.g = 1.0
-                v1.b = 1.0
-                v2.r = 1.0
-                v2.g = 1.0
-                v2.b = 1.0
-                v3.r = 1.0
-                v3.g = 1.0
-                v3.b = 1.0
-                v4.r = 1.0
-                v4.g = 1.0
-                v4.b = 1.0
+                self.prepareVertex4Mesh(vertex: &v1)
+                self.prepareVertex4Mesh(vertex: &v2)
+                self.prepareVertex4Mesh(vertex: &v3)
+                self.prepareVertex4Mesh(vertex: &v4)
                 
                 // first triangle mesh
                 self.addMeshVertex(vertex: &v1)
