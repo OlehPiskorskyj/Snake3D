@@ -95,23 +95,22 @@ class Player {
         let preTail = snake[snake.count - 2]
         
         if (head.column == apple.column && head.row == apple.row) {
-            /*
-            CGPoint appleNewPosition = [SnakeUtility randomPositionOnTerrainButNot:[self cellsUnderSnake]];
-            [mApple setPositionWithColumn:appleNewPosition.x Row:appleNewPosition.y];
+            let appleNewPosition = Toolbox.randomPositionOnTerrainButNot(occupiedСells: self.cellsUnderSnake())
+            apple.setPosition(column: appleNewPosition.x, row: appleNewPosition.y)
             
-            if ([tail getColumn] == [preTail getColumn])
-            {
+            if (tail.column == preTail.column) {
+                /*
                 SnakePart *part = [[SnakePart alloc] initWithColumn:[tail getColumn] Row:([tail getRow] > [preTail getRow]) ? [tail getRow] + 1 : [tail getRow] - 1];
                 [mSnake addObject:part];
                 [part release];
-            }
-            else if ([tail getRow] == [preTail getRow])
-            {
+                */
+            } else if (tail.row == preTail.row) {
+                /*
                 SnakePart *part = [[SnakePart alloc] initWithColumn:([tail getColumn] > [preTail getColumn]) ? [tail getColumn] + 1 : [tail getColumn] - 1 Row:[tail getRow]];
                 [mSnake addObject:part];
                 [part release];
+                */
             }
-            */
         }
     }
 }

@@ -102,8 +102,8 @@
 				03D887C125E5074F0001FF66 /* AppConsts.swift */,
 				03D887C525E50CBE0001FF66 /* Toolbox.swift */,
 				034A41A125E57EEE0067B410 /* Config.swift */,
-				033C45B225E4F8F700B07C70 /* Main.storyboard */,
 				033C45B725E4F8F800B07C70 /* LaunchScreen.storyboard */,
+				033C45B225E4F8F700B07C70 /* Main.storyboard */,
 			);
 			path = Common;
 			sourceTree = "<group>";

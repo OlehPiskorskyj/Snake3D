@@ -21,4 +21,13 @@ class Apple: Cube {
         let position = Toolbox.gameObjectPosition(column: column, row: row)
         super.init(x: Float(position.x), z: Float(position.y), size: Toolbox.terrainCellSize() * AppConsts.SCALE_FACTOR_SEGMENT, color: simd_float4(1.0, 0.0, 0.0, 1.0), device: device)
     }
+    
+    // MARK: - public methods
+    public func setPosition(column: Int, row: Int) {
+        self.column = column
+        self.row = row
+        
+        let position = Toolbox.gameObjectPosition(column: column, row: row)
+        super.setPosition(x: Float(position.x), z: Float(position.y))
+    }
 }
