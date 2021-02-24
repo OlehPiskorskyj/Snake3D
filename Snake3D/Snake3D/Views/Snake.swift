@@ -90,7 +90,7 @@ class Snake: MTKView {
         //[mPlayer setDelegate:self];
         
         //CGPoint appleStartPosition = [SnakeUtility randomPositionOnTerrainButNot:[mPlayer cellsUnderSnake]];
-        let appleStartPosition = Toolbox.randomPositionOnTerrain()
+        let appleStartPosition = Toolbox.randomPositionOnTerrain()      // temp
         apple = Apple(column: appleStartPosition.x, row: appleStartPosition.y, device: metalDevice)
         
         //[mPlayer setApple:mApple];
@@ -207,19 +207,14 @@ extension Snake: MTKViewDelegate {
         guard let commandBuffer = commandQueue.makeCommandBuffer() else { return }
         guard let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor) else { return }
         
-        lookAt = GLKMatrix4Multiply(GLKMatrix4MakeLookAt(0.0, 6.0 - self.zoom, 6.0 - self.zoom, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0), GLKMatrix4MakeTranslation(0.0, 0.0, -1.5))
-        
-        let modelView = GLKMatrix4Multiply(GLKMatrix4MakeScale(10.0, 1.0, 10.0), GLKMatrix4MakeTranslation(-0.5, 0.0, -0.5))
-        sceneMatrices.modelview = GLKMatrix4Multiply(lookAt, modelView)
-        let uniformBufferSize = MemoryLayout.size(ofValue: sceneMatrices)
-        uniformBuffer = metalDevice.makeBuffer(bytes: &sceneMatrices, length: uniformBufferSize, options: .storageModeShared)
-        renderEncoder.setVertexBuffer(uniformBuffer, offset: 0, index: 1)
         renderEncoder.setDepthStencilState(depthStencilState)
         renderEncoder.setRenderPipelineState(pipelineState)
         
-        terrain.draw(renderEncoder: renderEncoder)
+        lookAt = GLKMatrix4Multiply(GLKMatrix4MakeLookAt(0.0, 6.0 - self.zoom, 6.0 - self.zoom, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0), GLKMatrix4MakeTranslation(0.0, 0.0, -1.5))
+        
+        terrain.draw(renderEncoder: renderEncoder, lookAt: lookAt, sceneMatrices: &sceneMatrices)
         //[mPlayer drawWithEffect:mBaseEffect];
-        apple.draw(renderEncoder: renderEncoder)
+        apple.draw(renderEncoder: renderEncoder, lookAt: lookAt, sceneMatrices: &sceneMatrices)
         
         renderEncoder.endEncoding()
         commandBuffer.present(drawable)

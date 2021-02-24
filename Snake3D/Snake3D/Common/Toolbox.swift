@@ -7,7 +7,7 @@
 
 import UIKit
 
-class Toolbox: NSObject {
+class Toolbox {
     
     // MARK: - enums
     public enum Direction: Int {

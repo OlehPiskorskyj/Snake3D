@@ -6,13 +6,16 @@
 //
 
 import MetalKit
+import GLKit
 
 class Cube {
     
     // MARK: - props
     private var metalDevice: MTLDevice!
     private var vertexBuffer: MTLBuffer!
+    private var meshVertexBuffer: MTLBuffer!
     private var cubeIndexBuffer: MTLBuffer!
+    private var meshIndexBuffer: MTLBuffer!
     
     public var x: Float = 0.0
     public var z: Float = 0.0
@@ -57,31 +60,45 @@ class Cube {
         
         dataSize = cubeIndices.count * MemoryLayout.size(ofValue: cubeIndices[0])
         cubeIndexBuffer = metalDevice.makeBuffer(bytes: cubeIndices, length: dataSize, options: .storageModeShared)
+        
+        let meshVertexData: [Float] = [
+            0.0, size, 0.0, 0.0, 0.0, 0.0,
+            0.0, size, size, 0.0, 0.0, 0.0,
+            size, size, 0.0, 0.0, 0.0, 0.0,
+            size, size, size, 0.0, 0.0, 0.0,
+            
+            0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+            0.0, 0.0, size, 0.0, 0.0, 0.0,
+            size, 0.0, 0.0, 0.0, 0.0, 0.0,
+            size, 0.0, size, 0.0, 0.0, 0.0,
+        ]
+        
+        dataSize = meshVertexData.count * MemoryLayout.size(ofValue: meshVertexData[0])
+        meshVertexBuffer = metalDevice.makeBuffer(bytes: meshVertexData, length: dataSize, options: .storageModeShared)
+        
+        dataSize = meshIndices.count * MemoryLayout.size(ofValue: meshIndices[0])
+        meshIndexBuffer = metalDevice.makeBuffer(bytes: meshIndices, length: dataSize, options: .storageModeShared)
     }
     
     // MARK: - public methods
-    public func draw(renderEncoder: MTLRenderCommandEncoder) {
-        /*
-        GLKMatrix4 lookAt = *([[SnakeCamera instance] getLookAtMatrix]);
-        GLKMatrix4 modelView = GLKMatrix4Multiply([SnakeConfig scaleMatrixXYZ], GLKMatrix4Multiply(GLKMatrix4MakeTranslation(-0.5f, 0.0f, -0.5f), GLKMatrix4MakeTranslation(mX, 0.002f, mZ)));
-        */
-        
-        /*
-        glBindVertexArrayOES(mVertexArray);
-        glBindBuffer(GL_ARRAY_BUFFER, mVertexBuffer);
-        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, cubeIndices);
-        
-        effect.constantColor = GLKVector4Make(0.0f, 0.0f, 0.0f, 1.0f);
-        [effect prepareToDraw];
-        glDrawElements(GL_LINES, 24, GL_UNSIGNED_BYTE, meshIndices);
-        */
+    public func draw(renderEncoder: MTLRenderCommandEncoder, lookAt: GLKMatrix4, sceneMatrices: inout SceneMatrices) {
+        let modelView = GLKMatrix4Multiply(Config.scaleMatrixXYZ(), GLKMatrix4Multiply(GLKMatrix4MakeTranslation(-0.5, 0.0, -0.5), GLKMatrix4MakeTranslation(x, 0.002, z)))
+        sceneMatrices.modelview = GLKMatrix4Multiply(lookAt, modelView)
+        let uniformBufferSize = MemoryLayout.size(ofValue: sceneMatrices)
+        let uniformBuffer = metalDevice.makeBuffer(bytes: &sceneMatrices, length: uniformBufferSize, options: .storageModeShared)
+        renderEncoder.setVertexBuffer(uniformBuffer, offset: 0, index: 1)
         
         renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         renderEncoder.drawIndexedPrimitives(type: .triangle, indexCount: 36, indexType: .uint32, indexBuffer: cubeIndexBuffer, indexBufferOffset: 0)
+        
+        renderEncoder.setVertexBuffer(meshVertexBuffer, offset: 0, index: 0)
+        renderEncoder.drawIndexedPrimitives(type: .line, indexCount: 24, indexType: .uint32, indexBuffer: meshIndexBuffer, indexBufferOffset: 0)
     }
     
     public func tearDown() {
+        meshVertexBuffer = nil
         vertexBuffer = nil
+        meshIndexBuffer = nil
         cubeIndexBuffer = nil
     }
 }

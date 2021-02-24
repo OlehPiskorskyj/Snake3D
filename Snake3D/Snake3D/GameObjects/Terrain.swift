@@ -6,6 +6,7 @@
 //
 
 import MetalKit
+import GLKit
 
 class Terrain {
 
@@ -43,7 +44,13 @@ class Terrain {
     }
     
     // MARK: - public methods
-    public func draw(renderEncoder: MTLRenderCommandEncoder) {
+    public func draw(renderEncoder: MTLRenderCommandEncoder, lookAt: GLKMatrix4, sceneMatrices: inout SceneMatrices) {
+        let modelView = GLKMatrix4Multiply(Config.scaleMatrixXZ(), GLKMatrix4MakeTranslation(-0.5, 0.0, -0.5))
+        sceneMatrices.modelview = GLKMatrix4Multiply(lookAt, modelView)
+        let uniformBufferSize = MemoryLayout.size(ofValue: sceneMatrices)
+        let uniformBuffer = metalDevice.makeBuffer(bytes: &sceneMatrices, length: uniformBufferSize, options: .storageModeShared)
+        renderEncoder.setVertexBuffer(uniformBuffer, offset: 0, index: 1)
+        
         if (vertexCount > 0) {
             renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
             renderEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: Int(vertexCount))
