@@ -62,78 +62,20 @@ class Snake: MTKView {
         self.tearDownMetal()
     }
     
-    // MARK: - other methods
-    func internalInit() {
-        //self.enableSetNeedsDisplay = true
-        //self.isPaused = true
-        self.framebufferOnly = false
-        self.isOpaque = false
-        
-        self.colorPixelFormat = .bgra8Unorm
-        self.sampleCount = 4
-        self.depthStencilPixelFormat = .depth32Float
-        
-        prevTime = Date().timeIntervalSince1970
-        
-        self.setupMetal()
-        self.initializeGameObjects()
-        
-        self.delegate = self
-    }
-    
-    func initializeGameObjects() {
-        terrain = Terrain(device: metalDevice)
-        player = Player(column: 5, row: 5)
-        player.gameOver = {
-            print("Game Over")
+    // MARK: - events
+    @objc func swipe(gr: UISwipeGestureRecognizer) {
+        switch gr.direction {
+        case .up:
+            player.direction = .up
+        case .down:
+            player.direction = .down
+        case .left:
+            player.direction = .left
+        case .right:
+            player.direction = .right
+        default:
+            player.direction = .left
         }
-        
-        let appleStartPosition = Toolbox.randomPositionOnTerrainButNot(occupiedСells: player.cellsUnderSnake())
-        apple = Apple(column: appleStartPosition.x, row: appleStartPosition.y)
-        
-        player.apple = apple
-    }
-    
-    func setupMetal() {
-        metalDevice = MTLCreateSystemDefaultDevice()
-        commandQueue = metalDevice.makeCommandQueue()
-        self.device = metalDevice
-        
-        //lookAt = GLKMatrix4MakeLookAt(0.0, 6.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
-        lookAt = GLKMatrix4Multiply(GLKMatrix4MakeLookAt(0.0, 6.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0), GLKMatrix4MakeTranslation(0.0, 0.0, -1.5))
-        
-        let projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0), fabsf(Float(self.bounds.width / self.bounds.height)), 1.0, 100.0);
-        sceneMatrices.projection = projectionMatrix
-        
-        guard let defaultLibrary = metalDevice.makeDefaultLibrary() else { return }
-        let fragmentProgram = defaultLibrary.makeFunction(name: "basic_fragment")
-        let vertexProgram = defaultLibrary.makeFunction(name: "basic_vertex")
-        
-        let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
-        pipelineStateDescriptor.vertexFunction = vertexProgram
-        pipelineStateDescriptor.fragmentFunction = fragmentProgram
-        pipelineStateDescriptor.colorAttachments[0].pixelFormat = self.colorPixelFormat
-        //pipelineStateDescriptor.colorAttachments[0].isBlendingEnabled = true
-        pipelineStateDescriptor.sampleCount = self.sampleCount
-        pipelineStateDescriptor.depthAttachmentPixelFormat = self.depthStencilPixelFormat
-        
-        pipelineState = try! metalDevice.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
-        
-        let depthStencilDescriptor = MTLDepthStencilDescriptor()
-        depthStencilDescriptor.depthCompareFunction = .less
-        depthStencilDescriptor.isDepthWriteEnabled = true
-        depthStencilState = metalDevice.makeDepthStencilState(descriptor: depthStencilDescriptor)
-        
-        Config.instance.metalDevice = metalDevice
-    }
-    
-    func tearDownMetal() {
-        terrain.tearDown()
-        //player.te
-        apple.tearDown()
-        
-        textureDepth = nil
-        texture = nil
     }
     
     // MARK: - game cycle
@@ -194,6 +136,99 @@ class Snake: MTKView {
         depthTextureDescriptor.resourceOptions = [.storageModePrivate]
         depthTextureDescriptor.sampleCount = 4
         return metalDevice.makeTexture(descriptor: depthTextureDescriptor)
+    }
+    
+    // MARK: - other methods
+    func internalInit() {
+        //self.enableSetNeedsDisplay = true
+        //self.isPaused = true
+        self.framebufferOnly = false
+        self.isOpaque = false
+        
+        self.colorPixelFormat = .bgra8Unorm
+        self.sampleCount = 4
+        self.depthStencilPixelFormat = .depth32Float
+        
+        prevTime = Date().timeIntervalSince1970
+        
+        self.setupMetal()
+        self.initializeGameObjects()
+        self.addGestureRecognizers()
+        
+        self.delegate = self
+    }
+    
+    func initializeGameObjects() {
+        terrain = Terrain(device: metalDevice)
+        player = Player(column: 5, row: 5)
+        player.gameOver = {
+            print("Game Over")
+        }
+        
+        let appleStartPosition = Toolbox.randomPositionOnTerrainButNot(occupiedСells: player.cellsUnderSnake())
+        apple = Apple(column: appleStartPosition.x, row: appleStartPosition.y)
+        
+        player.apple = apple
+    }
+    
+    func setupMetal() {
+        metalDevice = MTLCreateSystemDefaultDevice()
+        commandQueue = metalDevice.makeCommandQueue()
+        self.device = metalDevice
+        
+        //lookAt = GLKMatrix4MakeLookAt(0.0, 6.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
+        lookAt = GLKMatrix4Multiply(GLKMatrix4MakeLookAt(0.0, 6.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0), GLKMatrix4MakeTranslation(0.0, 0.0, -1.5))
+        
+        let projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0), fabsf(Float(self.bounds.width / self.bounds.height)), 1.0, 100.0);
+        sceneMatrices.projection = projectionMatrix
+        
+        guard let defaultLibrary = metalDevice.makeDefaultLibrary() else { return }
+        let fragmentProgram = defaultLibrary.makeFunction(name: "basic_fragment")
+        let vertexProgram = defaultLibrary.makeFunction(name: "basic_vertex")
+        
+        let pipelineStateDescriptor = MTLRenderPipelineDescriptor()
+        pipelineStateDescriptor.vertexFunction = vertexProgram
+        pipelineStateDescriptor.fragmentFunction = fragmentProgram
+        pipelineStateDescriptor.colorAttachments[0].pixelFormat = self.colorPixelFormat
+        //pipelineStateDescriptor.colorAttachments[0].isBlendingEnabled = true
+        pipelineStateDescriptor.sampleCount = self.sampleCount
+        pipelineStateDescriptor.depthAttachmentPixelFormat = self.depthStencilPixelFormat
+        
+        pipelineState = try! metalDevice.makeRenderPipelineState(descriptor: pipelineStateDescriptor)
+        
+        let depthStencilDescriptor = MTLDepthStencilDescriptor()
+        depthStencilDescriptor.depthCompareFunction = .less
+        depthStencilDescriptor.isDepthWriteEnabled = true
+        depthStencilState = metalDevice.makeDepthStencilState(descriptor: depthStencilDescriptor)
+        
+        Config.instance.metalDevice = metalDevice
+    }
+    
+    func tearDownMetal() {
+        terrain.tearDown()
+        //player.te
+        apple.tearDown()
+        
+        textureDepth = nil
+        texture = nil
+    }
+    
+    func addGestureRecognizers() {
+        let upGR = UISwipeGestureRecognizer(target: self, action: #selector(swipe(gr:)))
+        upGR.direction = .up
+        self .addGestureRecognizer(upGR)
+        
+        let downGR = UISwipeGestureRecognizer(target: self, action: #selector(swipe(gr:)))
+        downGR.direction = .down
+        self .addGestureRecognizer(downGR)
+        
+        let leftGR = UISwipeGestureRecognizer(target: self, action: #selector(swipe(gr:)))
+        leftGR.direction = .left
+        self .addGestureRecognizer(leftGR)
+        
+        let rightGR = UISwipeGestureRecognizer(target: self, action: #selector(swipe(gr:)))
+        rightGR.direction = .right
+        self .addGestureRecognizer(rightGR)
     }
 }
 

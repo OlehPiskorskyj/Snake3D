@@ -12,11 +12,27 @@ class Player {
     
     // MARK: - props
     private var snake = Array<SnakePart>()
-    private var direction: Direction = .left
     private var elapsedTime: Double = 0.0
     
     public var apple: Apple? = nil
     public var gameOver: (() -> ())? = nil
+
+    private var mDirection: Direction = .left
+    public var direction: Direction {
+        get {
+            return mDirection
+        }
+        set {
+            if ((mDirection == .up && newValue == .down) ||
+                    (mDirection == .down && newValue == .up) ||
+                    (mDirection == .left && newValue == .right) ||
+                    (mDirection == .right && newValue == .left)) {
+                return
+            } else {
+                mDirection = newValue
+            }
+        }
+    }
     
     // MARK: - ctor
     init(column: Int, row: Int) {
@@ -35,7 +51,7 @@ class Player {
             let head = snake[0]
             let tail = snake[snake.count - 1]
             
-            switch direction {
+            switch mDirection {
             case .up:
                 tail.setPosition(column: head.column, row: head.row - 1)
             case .down:
