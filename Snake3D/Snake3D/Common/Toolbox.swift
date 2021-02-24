@@ -37,6 +37,25 @@ class Toolbox {
         return position
     }
     
+    public static func randomPositionOnTerrainButNot(occupiedСells: [CGPoint]) -> (x: Int, y: Int) {
+        let position = Toolbox.randomPositionOnTerrain()
+        var ok = true
+        
+        for cell in occupiedСells {
+            if (position.x == Int(cell.x) && position.y == Int(cell.y)) {
+                ok = false
+                break
+            }
+        }
+        
+        if (ok) {
+            return position
+        } else {
+            print("was genareted value same with one of snake part")
+            return Toolbox.randomPositionOnTerrainButNot(occupiedСells: occupiedСells)
+        }
+    }
+    
     public static func randomPositionOnTerrain() -> (x: Int, y: Int) {
         let i = arc4random() % 10
         let j = arc4random() % 10

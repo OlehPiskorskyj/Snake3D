@@ -15,6 +15,9 @@ class Player {
     private var direction: Direction = .left
     private var elapsedTime: Double = 0.0
     
+    public var apple: Apple? = nil
+    public var gameOver: (() -> ())? = nil
+    
     // MARK: - ctor
     init(column: Int, row: Int, device: MTLDevice) {
         for i in 0..<5 {
@@ -57,12 +60,58 @@ class Player {
         }
     }
     
+    public func cellsUnderSnake() -> [CGPoint] {
+        var returnValue = Array<CGPoint>()
+        for part in snake {
+            returnValue.append(CGPoint(x: part.column, y: part.row))
+        }
+        return returnValue
+    }
+    
     // MARK: - other methods
     private func collisionTest() {
+        let head = snake[0]
         
+        // walls collision
+        if (head.column > AppConsts.MAP_SIZE - 2 || head.column < 0
+                || head.row > AppConsts.MAP_SIZE - 2 || head.row < 0) {
+            self.gameOver?()
+        }
+        
+        // self collision
+        for i in 1..<snake.count {
+            let part = snake[i]
+            if (head.column == part.column && head.row == part.row) {
+                self.gameOver?()
+            }
+        }
     }
     
     private func eatAppleTest() {
+        guard let apple = self.apple else { return }
         
+        let head = snake[0]
+        let tail = snake[snake.count - 1]
+        let preTail = snake[snake.count - 2]
+        
+        if (head.column == apple.column && head.row == apple.row) {
+            /*
+            CGPoint appleNewPosition = [SnakeUtility randomPositionOnTerrainButNot:[self cellsUnderSnake]];
+            [mApple setPositionWithColumn:appleNewPosition.x Row:appleNewPosition.y];
+            
+            if ([tail getColumn] == [preTail getColumn])
+            {
+                SnakePart *part = [[SnakePart alloc] initWithColumn:[tail getColumn] Row:([tail getRow] > [preTail getRow]) ? [tail getRow] + 1 : [tail getRow] - 1];
+                [mSnake addObject:part];
+                [part release];
+            }
+            else if ([tail getRow] == [preTail getRow])
+            {
+                SnakePart *part = [[SnakePart alloc] initWithColumn:([tail getColumn] > [preTail getColumn]) ? [tail getColumn] + 1 : [tail getColumn] - 1 Row:[tail getRow]];
+                [mSnake addObject:part];
+                [part release];
+            }
+            */
+        }
     }
 }

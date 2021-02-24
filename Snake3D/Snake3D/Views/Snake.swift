@@ -49,7 +49,6 @@ class Snake: MTKView {
     
     public var zoom: Float = 0.0
     public var prevTime: TimeInterval = 0.0
-    //@private NSTimeInterval mPrevTime;
     
     private var terrain: Terrain!
     private var player: Player!
@@ -92,13 +91,14 @@ class Snake: MTKView {
     func initializeGameObjects() {
         terrain = Terrain(device: metalDevice)
         player = Player(column: 5, row: 5, device: metalDevice)
-        //[mPlayer setDelegate:self];
+        player.gameOver = {
+            print("Game Over")
+        }
         
-        //CGPoint appleStartPosition = [SnakeUtility randomPositionOnTerrainButNot:[mPlayer cellsUnderSnake]];
-        let appleStartPosition = Toolbox.randomPositionOnTerrain()      // temp
+        let appleStartPosition = Toolbox.randomPositionOnTerrainButNot(occupiedСells: player.cellsUnderSnake())
         apple = Apple(column: appleStartPosition.x, row: appleStartPosition.y, device: metalDevice)
         
-        //[mPlayer setApple:mApple];
+        player.apple = apple
     }
     
     func setupMetal() {

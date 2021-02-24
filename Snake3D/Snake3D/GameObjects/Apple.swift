@@ -10,8 +10,8 @@ import MetalKit
 class Apple: Cube {
     
     // MARK: - props
-    private var column: Int = 0
-    private var row: Int = 0
+    public var column: Int = 0
+    public var row: Int = 0
     
     // MARK: - ctor
     init(column: Int, row: Int, device: MTLDevice) {
