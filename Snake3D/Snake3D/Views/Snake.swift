@@ -40,13 +40,6 @@ class Snake: MTKView {
     public var uniformBuffer: MTLBuffer!
     public var lookAt: GLKMatrix4 = GLKMatrix4Identity
     
-    public var vertexBuffer: MTLBuffer!
-    public var indexBuffer: MTLBuffer!
-    public var vertexCount: UInt32 = 0
-    public var indexCount: UInt32 = 0
-    public var maxVertexCount = 0
-    public var maxIndexCount = 0
-    
     public var zoom: Float = 0.0
     public var prevTime: TimeInterval = 0.0
     
@@ -90,13 +83,13 @@ class Snake: MTKView {
     
     func initializeGameObjects() {
         terrain = Terrain(device: metalDevice)
-        player = Player(column: 5, row: 5, device: metalDevice)
+        player = Player(column: 5, row: 5)
         player.gameOver = {
             print("Game Over")
         }
         
         let appleStartPosition = Toolbox.randomPositionOnTerrainButNot(occupiedСells: player.cellsUnderSnake())
-        apple = Apple(column: appleStartPosition.x, row: appleStartPosition.y, device: metalDevice)
+        apple = Apple(column: appleStartPosition.x, row: appleStartPosition.y)
         
         player.apple = apple
     }
@@ -131,8 +124,7 @@ class Snake: MTKView {
         depthStencilDescriptor.isDepthWriteEnabled = true
         depthStencilState = metalDevice.makeDepthStencilState(descriptor: depthStencilDescriptor)
         
-        vertexCount = 0
-        indexCount = 0
+        Config.instance.metalDevice = metalDevice
     }
     
     func tearDownMetal() {
@@ -140,8 +132,6 @@ class Snake: MTKView {
         //player.te
         apple.tearDown()
         
-        vertexBuffer = nil
-        indexBuffer = nil
         textureDepth = nil
         texture = nil
     }

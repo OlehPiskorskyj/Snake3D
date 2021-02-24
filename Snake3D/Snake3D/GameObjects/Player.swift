@@ -19,9 +19,9 @@ class Player {
     public var gameOver: (() -> ())? = nil
     
     // MARK: - ctor
-    init(column: Int, row: Int, device: MTLDevice) {
+    init(column: Int, row: Int) {
         for i in 0..<5 {
-            let part = SnakePart(column: column + i, row: row, device: device)
+            let part = SnakePart(column: column + i, row: row)
             self.snake.append(part)
         }
     }
@@ -99,17 +99,11 @@ class Player {
             apple.setPosition(column: appleNewPosition.x, row: appleNewPosition.y)
             
             if (tail.column == preTail.column) {
-                /*
-                SnakePart *part = [[SnakePart alloc] initWithColumn:[tail getColumn] Row:([tail getRow] > [preTail getRow]) ? [tail getRow] + 1 : [tail getRow] - 1];
-                [mSnake addObject:part];
-                [part release];
-                */
+                let part = SnakePart(column: tail.column, row: (tail.row > preTail.row) ? tail.row + 1 : tail.row - 1)
+                snake.append(part)
             } else if (tail.row == preTail.row) {
-                /*
-                SnakePart *part = [[SnakePart alloc] initWithColumn:([tail getColumn] > [preTail getColumn]) ? [tail getColumn] + 1 : [tail getColumn] - 1 Row:[tail getRow]];
-                [mSnake addObject:part];
-                [part release];
-                */
+                let part = SnakePart(column: (tail.column > preTail.column) ? tail.column + 1 : tail.column - 1, row: tail.row)
+                snake.append(part)
             }
         }
     }

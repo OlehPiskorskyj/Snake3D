@@ -11,7 +11,6 @@ import GLKit
 class Cube {
     
     // MARK: - props
-    private var metalDevice: MTLDevice!
     private var vertexBuffer: MTLBuffer!
     private var meshVertexBuffer: MTLBuffer!
     private var cubeIndexBuffer: MTLBuffer!
@@ -37,11 +36,10 @@ class Cube {
     ]
     
     // MARK: - ctor
-    init(x: Float, z: Float, size: Float, color: SIMD4<Float>, device: MTLDevice) {
+    init(x: Float, z: Float, size: Float, color: SIMD4<Float>) {
         self.x = x
         self.z = z
         self.size = size
-        self.metalDevice = device
         
         let vertexData: [Float] = [
             0.0, size, 0.0, color.x, color.y, color.z,
@@ -54,6 +52,8 @@ class Cube {
             size, 0.0, 0.0, color.x, color.y, color.z,
             size, 0.0, size, color.x, color.y, color.z
         ]
+        
+        guard let metalDevice = Config.instance.metalDevice else { return }
         
         var dataSize = vertexData.count * MemoryLayout.size(ofValue: vertexData[0])
         vertexBuffer = metalDevice.makeBuffer(bytes: vertexData, length: dataSize, options: .storageModeShared)
@@ -82,6 +82,8 @@ class Cube {
     
     // MARK: - public methods
     public func draw(renderEncoder: MTLRenderCommandEncoder, lookAt: GLKMatrix4, sceneMatrices: inout SceneMatrices) {
+        guard let metalDevice = Config.instance.metalDevice else { return }
+        
         let modelView = GLKMatrix4Multiply(Config.scaleMatrixXYZ(), GLKMatrix4Multiply(GLKMatrix4MakeTranslation(-0.5, 0.0, -0.5), GLKMatrix4MakeTranslation(x, 0.002, z)))
         sceneMatrices.modelview = GLKMatrix4Multiply(lookAt, modelView)
         let uniformBufferSize = MemoryLayout.size(ofValue: sceneMatrices)
