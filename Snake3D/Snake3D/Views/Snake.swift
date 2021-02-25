@@ -39,12 +39,14 @@ class Snake: MTKView {
     private var uniformBuffer: MTLBuffer!
     private var lookAt: GLKMatrix4 = GLKMatrix4Identity
     private var prevTime: TimeInterval = 0.0
+    private var playerDead: Bool = false
     
     private var terrain: Terrain!
     private var player: Player!
     private var apple: Apple!
     
     public var scoreChanged: ((Int) -> ())? = nil
+    public var gameOver: ((Int) -> ())? = nil
     public var zoom: Float = 0.0
     
     public var score: Int = 0 {
@@ -86,6 +88,7 @@ class Snake: MTKView {
     
     // MARK: - game cycle
     func update(timeElapsed: Double) {
+        if (playerDead) { return }
         player.update(timeElapsed: timeElapsed)
     }
     
@@ -171,8 +174,9 @@ class Snake: MTKView {
             self?.score += 10
         }
         
-        player.gameOver = {
-            print("Game Over")
+        player.gameOver = { [weak self] in
+            self?.gameOver?(self?.score ?? 0)
+            self?.playerDead = true
         }
         
         let appleStartPosition = Toolbox.randomPositionOnTerrainButNot(occupiedСells: player.cellsUnderSnake())
