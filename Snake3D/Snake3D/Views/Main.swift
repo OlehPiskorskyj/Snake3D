@@ -28,7 +28,7 @@ class Main: UIViewController {
                 exit(0)
             }))
             alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: { [weak self] (action) in
-                
+                self?.viewSnake.retry()
             }))
             self?.present(alert, animated: true)
         }

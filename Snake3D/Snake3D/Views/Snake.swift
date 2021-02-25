@@ -126,6 +126,18 @@ class Snake: MTKView {
         return renderPassDescriptor
     }
     
+    // MARK: - public methods
+    public func retry() {
+        player = self.initPlayer()
+        score = 0
+        
+        let appleStartPosition = Toolbox.randomPositionOnTerrainButNot(occupiedСells: player.cellsUnderSnake())
+        apple.setPosition(column: appleStartPosition.x, row: appleStartPosition.y)
+        
+        player.apple = apple
+        playerDead = false
+    }
+    
     // MARK: - other methods
     func internalInit() {
         //self.enableSetNeedsDisplay = true
@@ -140,15 +152,24 @@ class Snake: MTKView {
         prevTime = Date().timeIntervalSince1970
         
         self.setupMetal()
-        self.initializeGameObjects()
+        self.initGameObjects()
         self.addGestureRecognizers()
         
         self.delegate = self
     }
     
-    func initializeGameObjects() {
+    func initGameObjects() {
         terrain = Terrain()
-        player = Player(column: 5, row: 5)
+        player = self.initPlayer()
+        
+        let appleStartPosition = Toolbox.randomPositionOnTerrainButNot(occupiedСells: player.cellsUnderSnake())
+        apple = Apple(column: appleStartPosition.x, row: appleStartPosition.y)
+        
+        player.apple = apple
+    }
+    
+    func initPlayer() -> Player {
+        let player = Player(column: 5, row: 5)
         player.appleEaten = { [weak self] in
             self?.score += 10
         }
@@ -157,11 +178,7 @@ class Snake: MTKView {
             self?.gameOver?(self?.score ?? 0)
             self?.playerDead = true
         }
-        
-        let appleStartPosition = Toolbox.randomPositionOnTerrainButNot(occupiedСells: player.cellsUnderSnake())
-        apple = Apple(column: appleStartPosition.x, row: appleStartPosition.y)
-        
-        player.apple = apple
+        return player
     }
     
     func setupMetal() {
