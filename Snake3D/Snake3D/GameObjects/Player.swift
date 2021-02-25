@@ -15,8 +15,9 @@ class Player {
     private var elapsedTime: Double = 0.0
     
     public var apple: Apple? = nil
+    public var appleEaten: (() -> ())? = nil
     public var gameOver: (() -> ())? = nil
-
+    
     private var mDirection: Direction = .left
     public var direction: Direction {
         get {
@@ -112,6 +113,7 @@ class Player {
     private func eatAppleTest() {
         guard let apple = self.apple else { return }
         
+        var success = false
         let head = snake[0]
         let tail = snake[snake.count - 1]
         let preTail = snake[snake.count - 2]
@@ -123,10 +125,16 @@ class Player {
             if (tail.column == preTail.column) {
                 let part = SnakePart(column: tail.column, row: (tail.row > preTail.row) ? tail.row + 1 : tail.row - 1)
                 snake.append(part)
+                success = true
             } else if (tail.row == preTail.row) {
                 let part = SnakePart(column: (tail.column > preTail.column) ? tail.column + 1 : tail.column - 1, row: tail.row)
                 snake.append(part)
+                success = true
             }
+        }
+        
+        if (success) {
+            self.appleEaten?()
         }
     }
 }

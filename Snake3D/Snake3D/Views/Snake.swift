@@ -35,17 +35,23 @@ class Snake: MTKView {
     private var depthStencilState: MTLDepthStencilState!
     private var textureDepth: MTLTexture? = nil
     private var texture: MTLTexture? = nil
-    
-    public var sceneMatrices = SceneMatrices()
-    public var uniformBuffer: MTLBuffer!
-    public var lookAt: GLKMatrix4 = GLKMatrix4Identity
-    
-    public var zoom: Float = 0.0
-    public var prevTime: TimeInterval = 0.0
+    private var sceneMatrices = SceneMatrices()
+    private var uniformBuffer: MTLBuffer!
+    private var lookAt: GLKMatrix4 = GLKMatrix4Identity
+    private var prevTime: TimeInterval = 0.0
     
     private var terrain: Terrain!
     private var player: Player!
     private var apple: Apple!
+    
+    public var scoreChanged: ((Int) -> ())? = nil
+    public var zoom: Float = 0.0
+    
+    public var score: Int = 0 {
+        didSet {
+            self.scoreChanged?(score)
+        }
+    }
     
     // MARK: - ctors
     override public init(frame frameRect: CGRect, device: MTLDevice?) {
@@ -161,6 +167,10 @@ class Snake: MTKView {
     func initializeGameObjects() {
         terrain = Terrain()
         player = Player(column: 5, row: 5)
+        player.appleEaten = { [weak self] in
+            self?.score += 10
+        }
+        
         player.gameOver = {
             print("Game Over")
         }
@@ -176,7 +186,6 @@ class Snake: MTKView {
         commandQueue = metalDevice.makeCommandQueue()
         self.device = metalDevice
         
-        //lookAt = GLKMatrix4MakeLookAt(0.0, 6.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
         lookAt = GLKMatrix4Multiply(GLKMatrix4MakeLookAt(0.0, 6.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0), GLKMatrix4MakeTranslation(0.0, 0.0, -1.5))
         
         let projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0), fabsf(Float(self.bounds.width / self.bounds.height)), 1.0, 100.0);

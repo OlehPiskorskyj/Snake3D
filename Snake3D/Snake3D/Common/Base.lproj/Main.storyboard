@@ -20,10 +20,22 @@
                             <mtkView contentMode="scaleToFill" colorPixelFormat="BGRA8Unorm" depthStencilPixelFormat="Depth32Float" translatesAutoresizingMaskIntoConstraints="NO" id="Ii3-Ta-9M0" customClass="Snake" customModule="Snake3D" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </mtkView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ma-xg-mVn">
+                                <rect key="frame" x="150" y="54" width="114" height="39"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="39" id="2kB-yj-r0h"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="sBg-xb-MDL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="3ma-xg-mVn" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="C8h-5m-qe4"/>
+                            <constraint firstItem="3ma-xg-mVn" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="HTG-Dz-7h6"/>
                             <constraint firstAttribute="trailing" secondItem="Ii3-Ta-9M0" secondAttribute="trailing" id="IYH-wv-XXc"/>
                             <constraint firstItem="Ii3-Ta-9M0" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="c7O-cU-o0J"/>
                             <constraint firstAttribute="bottom" secondItem="Ii3-Ta-9M0" secondAttribute="bottom" id="gWK-ca-0S2"/>
@@ -31,6 +43,10 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="SoM-RW-IDS"/>
+                    <connections>
+                        <outlet property="lblScore" destination="3ma-xg-mVn" id="7xc-EL-sMT"/>
+                        <outlet property="viewSnake" destination="Ii3-Ta-9M0" id="grT-L4-VBC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
