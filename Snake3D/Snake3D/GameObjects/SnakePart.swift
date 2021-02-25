@@ -14,12 +14,12 @@ class SnakePart: Cube {
     public var row: Int = 0
     
     // MARK: - ctor
-    init(column: Int, row: Int) {
+    init(column: Int, row: Int, color: SIMD4<Float> = simd_float4(0.0, 1.0, 0.0, 1.0)) {
         self.column = column
         self.row = row
         
         let position = Toolbox.gameObjectPosition(column: column, row: row)
-        super.init(x: Float(position.x), z: Float(position.y), size: Toolbox.terrainCellSize() * AppConsts.SCALE_FACTOR_SEGMENT, color: simd_float4(0.0, 1.0, 0.0, 1.0))
+        super.init(x: Float(position.x), z: Float(position.y), size: Toolbox.terrainCellSize() * AppConsts.SCALE_FACTOR_SEGMENT, color: color)
     }
     
     // MARK: - public methods

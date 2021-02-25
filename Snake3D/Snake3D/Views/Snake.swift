@@ -102,11 +102,11 @@ class Snake: MTKView {
     
     func createRenderPassDescriptor(drawable: CAMetalDrawable) -> MTLRenderPassDescriptor {
         if (texture == nil) {
-            texture = self.createAliasingTexture(texture: drawable.texture)
+            texture = Toolbox.aliasingTexture(texture: drawable.texture, device: metalDevice, sampleCount: self.sampleCount)
         }
         
         if (textureDepth == nil) {
-            textureDepth = self.createDepthTexture(texture: drawable.texture)
+            textureDepth = Toolbox.depthTexture(texture: drawable.texture, device: metalDevice, sampleCount: self.sampleCount)
         }
         
         let depthAttachementTexureDescriptor = MTLRenderPassDepthAttachmentDescriptor()
@@ -124,27 +124,6 @@ class Snake: MTKView {
         renderPassDescriptor.depthAttachment = depthAttachementTexureDescriptor
         
         return renderPassDescriptor
-    }
-    
-    func createAliasingTexture(texture: MTLTexture) -> MTLTexture? {
-        let textureDescriptor = MTLTextureDescriptor()
-        textureDescriptor.pixelFormat = texture.pixelFormat
-        textureDescriptor.width = texture.width
-        textureDescriptor.height = texture.height
-        textureDescriptor.textureType = .type2DMultisample
-        textureDescriptor.usage = [.renderTarget, .shaderRead]
-        textureDescriptor.sampleCount = self.sampleCount
-        return metalDevice.makeTexture(descriptor: textureDescriptor)
-    }
-    
-    func createDepthTexture(texture: MTLTexture) -> MTLTexture? {
-        let depthTextureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .depth32Float, width: texture.width, height: texture.height, mipmapped: false)
-        depthTextureDescriptor.usage = [.renderTarget, .shaderRead, .shaderWrite, .pixelFormatView]
-        depthTextureDescriptor.textureType = .type2DMultisample
-        depthTextureDescriptor.storageMode = .private
-        depthTextureDescriptor.resourceOptions = [.storageModePrivate]
-        depthTextureDescriptor.sampleCount = 4
-        return metalDevice.makeTexture(descriptor: depthTextureDescriptor)
     }
     
     // MARK: - other methods

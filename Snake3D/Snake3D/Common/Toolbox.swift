@@ -17,7 +17,29 @@ public enum Direction: Int {
 
 class Toolbox {
     
-    // MARK: - methods
+    // MARK: - metal textures
+    public static func aliasingTexture(texture: MTLTexture, device: MTLDevice, sampleCount: Int) -> MTLTexture? {
+        let textureDescriptor = MTLTextureDescriptor()
+        textureDescriptor.pixelFormat = texture.pixelFormat
+        textureDescriptor.width = texture.width
+        textureDescriptor.height = texture.height
+        textureDescriptor.textureType = .type2DMultisample
+        textureDescriptor.usage = [.renderTarget, .shaderRead]
+        textureDescriptor.sampleCount = sampleCount
+        return device.makeTexture(descriptor: textureDescriptor)
+    }
+    
+    public static func depthTexture(texture: MTLTexture, device: MTLDevice, sampleCount: Int) -> MTLTexture? {
+        let depthTextureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .depth32Float, width: texture.width, height: texture.height, mipmapped: false)
+        depthTextureDescriptor.usage = [.renderTarget, .shaderRead, .shaderWrite, .pixelFormatView]
+        depthTextureDescriptor.textureType = .type2DMultisample
+        depthTextureDescriptor.storageMode = .private
+        depthTextureDescriptor.resourceOptions = [.storageModePrivate]
+        depthTextureDescriptor.sampleCount = sampleCount   //4
+        return device.makeTexture(descriptor: depthTextureDescriptor)
+    }
+    
+    // MARK: - other methods
     public static func positionFromTerrainCell(i: Int, j: Int) -> CGPoint {
         let cellSize = Toolbox.terrainCellSize()
         let x = Float(i) * cellSize
