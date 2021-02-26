@@ -11,7 +11,8 @@ class Alert: NSObject {
     
     // MARK: - constants
     public struct Consts {
-        static let DIALOG_SIZE: CGFloat = 160.0
+        static let ALERT_WIDTH: CGFloat = 240.0
+        static let ALERT_HEIGHT: CGFloat = 160.0
     }
         
     // MARK: - props
@@ -19,14 +20,21 @@ class Alert: NSObject {
     private var viewMain = UIView()
     private var viewContainer = UIView()
     private var viewDialog = UIView()
+    private var lblTitle = UILabel()
+    private var lblMessage = UILabel()
+    private var btnCancel = UIButton()
+    private var btnOk = UIButton(type: .custom)
     
     private var currentOrientation: UIDeviceOrientation = .portrait
     private var message: String? = nil
     private var screenRect: CGRect = CGRect.zero
     private var isLandscape: Bool = false
     
+    public var cancelAction: (() -> ())? = nil
+    public var okAction: (() -> ())? = nil
+    
     // MARK: - ctors
-    public init(title: String) {
+    public init(title: String, message: String, cancelTitle: String, okTitle: String) {
         super.init()
         
         let width = UIScreen.main.bounds.size.width
@@ -61,12 +69,57 @@ class Alert: NSObject {
         self.viewMain.addSubview(self.viewContainer)
         
         self.viewDialog.translatesAutoresizingMaskIntoConstraints = false
-        self.viewDialog.frame = CGRect(x: 0.0, y: 0.0, width: Consts.DIALOG_SIZE, height: Consts.DIALOG_SIZE)
-        self.viewDialog.backgroundColor = UIColor.init(white: 237.0 / 255.0, alpha: 1.0)
-        self.viewDialog.layer.cornerRadius = 6.0
+        self.viewDialog.backgroundColor = UIColor.init(white: 0.2, alpha: 1.0)
+        self.viewDialog.layer.borderColor = UIColor.white.cgColor
+        self.viewDialog.layer.borderWidth = 0.5
         self.viewContainer.addSubview(self.viewDialog)
         
-        Toolbox.addConstraints2View(view: self.viewDialog, parentView: self.viewContainer, template: .centerXcenterYwidthHeight, value1: 0.0, value2: 0.0, value3: Consts.DIALOG_SIZE, value4: Consts.DIALOG_SIZE)
+        Toolbox.addConstraints2View(view: self.viewDialog, parentView: self.viewContainer, template: .centerXcenterYwidthHeight, value1: 0.0, value2: 0.0, value3: Consts.ALERT_WIDTH, value4: Consts.ALERT_HEIGHT)
+        
+        self.lblTitle.translatesAutoresizingMaskIntoConstraints = false
+        self.lblTitle.font = UIFont.systemFont(ofSize: 24.0)
+        self.lblTitle.textAlignment = .center
+        self.lblTitle.textColor = .white
+        self.lblTitle.text = title
+        self.viewDialog.addSubview(self.lblTitle)
+        
+        Toolbox.addConstraints2View(view: self.lblTitle, parentView: self.viewDialog, template: .leftRightTopHeight, value1: 0.0, value2: 0.0, value3: 18.0, value4: 30.0)
+        
+        self.lblMessage.translatesAutoresizingMaskIntoConstraints = false
+        self.lblMessage.font = UIFont.systemFont(ofSize: 16.0)
+        self.lblMessage.textAlignment = .center
+        self.lblMessage.textColor = .white
+        self.lblMessage.text = message
+        self.viewDialog.addSubview(self.lblMessage)
+        
+        Toolbox.addConstraints2View(view: self.lblMessage, parentView: self.viewDialog, template: .leftRightTopHeight, value1: 0.0, value2: 0.0, value3: 54.0, value4: 20.0)
+        
+        self.btnCancel.translatesAutoresizingMaskIntoConstraints = false
+        self.btnCancel.addTarget(self, action: #selector(btnClick(sender:)), for: .touchUpInside)
+        self.btnCancel.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        self.btnCancel.setTitleColor(.red, for: .normal)
+        self.btnCancel.setTitle(cancelTitle, for: .normal)
+        self.btnCancel.backgroundColor = .clear
+        self.viewDialog.addSubview(self.btnCancel)
+        
+        Toolbox.addConstraints2View(view: self.btnCancel, parentView: self.viewDialog, template: .leftBottomWidthHeight, value1: 0.0, value2: 0.0, value3: Consts.ALERT_WIDTH / 2.0, value4: 80.0)
+        
+        self.btnOk.translatesAutoresizingMaskIntoConstraints = false
+        self.btnOk.addTarget(self, action: #selector(btnClick(sender:)), for: .touchUpInside)
+        self.btnOk.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        self.btnOk.setTitleColor(.green, for: .normal)
+        self.btnOk.setTitle(okTitle, for: .normal)
+        self.btnOk.backgroundColor = .clear
+        self.viewDialog.addSubview(self.btnOk)
+        
+        Toolbox.addConstraints2View(view: self.btnOk, parentView: self.viewDialog, template: .rightBottomWidthHeight, value1: 0.0, value2: 0.0, value3: Consts.ALERT_WIDTH / 2.0, value4: 80.0)
+        
+        let viewDivider = UIView()
+        viewDivider.translatesAutoresizingMaskIntoConstraints = false
+        viewDivider.backgroundColor = .white
+        self.viewDialog.addSubview(viewDivider)
+        
+        Toolbox.addConstraints2View(view: viewDivider, parentView: self.viewDialog, template: .topBottomCenterXwidth, value1: 90.0, value2: -10.0, value3: 0.0, value4: 1.0)
         
         self.viewContainer.layoutIfNeeded()
         
@@ -80,6 +133,16 @@ class Alert: NSObject {
     }
     
     // MARK: - events
+    @objc func btnClick(sender: UIButton) {
+        self.hide()
+        
+        if (sender == btnCancel) {
+            self.cancelAction?()
+        } else if (sender == btnOk) {
+            self.okAction?()
+        }
+    }
+    
     @objc func tap() {
         self.hide()
     }
@@ -125,11 +188,10 @@ class Alert: NSObject {
     // MARK: - public methods
     public func rotateToLandscape() {
         self.isLandscape = true
-        self.rotate2Orientation(orientation: .landscapeRight)
+        self.rotate2Orientation(orientation: .landscapeLeft)
     }
     
     public func show() {
-        
         self.window?.windowLevel = Toolbox.topWindowLevel()
         self.window?.makeKeyAndVisible()
         

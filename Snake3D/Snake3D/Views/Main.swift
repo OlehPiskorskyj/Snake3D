@@ -24,10 +24,20 @@ class Main: UIViewController {
         }
         
         viewSnake.gameOver = { [weak self] (score: Int) in
-            //self?.alert = Alert(title: "Game Over")
-            //self?.alert?.rotateToLandscape()
-            //self?.alert?.show()
+            self?.alert = Alert(title: "Game Over", message: String(format: "Your score is: %d", score), cancelTitle: "Quit", okTitle: "Retry")
+            self?.alert?.rotateToLandscape()
             
+            self?.alert?.cancelAction = {
+                exit(0)
+            }
+            
+            self?.alert?.okAction = { [weak self] in
+                self?.viewSnake.retry()
+            }
+            
+            self?.alert?.show()
+            
+            /*
             let alert = UIAlertController(title: "Game Over", message: String(format: "Your score is: %d", score), preferredStyle: .alert)
             
             alert.addAction(UIAlertAction(title: "Quit", style: .cancel, handler: { (action) in
@@ -37,6 +47,7 @@ class Main: UIViewController {
                 self?.viewSnake.retry()
             }))
             self?.present(alert, animated: true)
+            */
         }
     }
 }
