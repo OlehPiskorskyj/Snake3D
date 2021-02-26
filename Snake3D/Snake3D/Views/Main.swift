@@ -13,6 +13,8 @@ class Main: UIViewController {
     @IBOutlet weak var viewSnake: Snake!
     @IBOutlet weak var lblScore: UILabel!
     
+    private var alert: Alert? = nil
+    
     // MARK: - vc life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +24,10 @@ class Main: UIViewController {
         }
         
         viewSnake.gameOver = { [weak self] (score: Int) in
+            //self?.alert = Alert(title: "Game Over")
+            //self?.alert?.rotateToLandscape()
+            //self?.alert?.show()
+            
             let alert = UIAlertController(title: "Game Over", message: String(format: "Your score is: %d", score), preferredStyle: .alert)
             
             alert.addAction(UIAlertAction(title: "Quit", style: .cancel, handler: { (action) in

@@ -215,7 +215,7 @@ class Snake: MTKView {
     
     func tearDownMetal() {
         terrain.tearDown()
-        //player.te
+        player.tearDown()
         apple.tearDown()
         
         textureDepth = nil
