@@ -8,16 +8,17 @@
 import UIKit
 
 extension UILabel {
-    public func pulseAnimation() {
-        self.alpha = 0.0
+    public func pulseAnimation(repeatCount: Int) {
+        self.alpha = 1.0
         
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 4.375, execute: { [weak self] in
-            self?.layer.removeAllAnimations()
-            self?.alpha = 0.0
-        })
-        
-        UIView.animate(withDuration: 0.8, delay: 0.0, options: [.autoreverse, .repeat]) { [weak self] in
-            self?.alpha = 1.0
-        }
+        let flashAnimation = CABasicAnimation(keyPath: "opacity")
+        flashAnimation.fromValue = NSNumber(value: 0)
+        flashAnimation.toValue = NSNumber(value: 1)
+        flashAnimation.repeatCount = Float(repeatCount)
+        flashAnimation.duration = 1.0
+        flashAnimation.autoreverses = true
+        self.layer.removeAnimation(forKey: "flashAnimation")
+        self.layer.add(flashAnimation, forKey: "flashAnimation")
+        self.layer.opacity = 0.0
     }
 }
