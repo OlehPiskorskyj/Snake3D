@@ -171,7 +171,7 @@ class Snake: MTKView {
     func initPlayer() -> Player {
         let player = Player(column: 5, row: 5)
         player.appleEaten = { [weak self] in
-            self?.score += 10
+            self?.score += 8
         }
         
         player.gameOver = { [weak self] in

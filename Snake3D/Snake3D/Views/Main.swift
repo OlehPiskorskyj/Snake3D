@@ -15,13 +15,27 @@ class Main: UIViewController {
     @IBOutlet weak var lblInfo: UILabel!
     
     private var alert: Alert? = nil
+    private var score: Int = 0 {
+        didSet {
+            if (score > 0) {
+                lblScore.text = String(format: "Score: %d", score)
+                if (lblScore.alpha == 0.0) {
+                    UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut) { [weak self] in
+                        self?.lblScore.alpha = 1.0
+                    }
+                }
+            } else {
+                lblScore.alpha = 0.0
+            }
+        }
+    }
     
     // MARK: - vc life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         viewSnake.scoreChanged = { [weak self] (score: Int) in
-            self?.lblScore.text = String(format: "Score: %d", score)
+            self?.score = score
         }
         
         viewSnake.gameOver = { [weak self] (score: Int) in
