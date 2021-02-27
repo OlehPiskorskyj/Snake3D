@@ -12,6 +12,7 @@ class Main: UIViewController {
     // MARK: - props
     @IBOutlet weak var viewSnake: Snake!
     @IBOutlet weak var lblScore: UILabel!
+    @IBOutlet weak var lblInfo: UILabel!
     
     private var alert: Alert? = nil
     
@@ -33,5 +34,10 @@ class Main: UIViewController {
             }
             self?.alert?.show()
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        lblInfo.pulseAnimation()
     }
 }

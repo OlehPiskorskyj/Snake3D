@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0313546A25EA507700B2B4BA /* UILabel+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0313546925EA507700B2B4BA /* UILabel+extensions.swift */; };
 		0331AB9325E65D6F0000702D /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0331AB9225E65D6F0000702D /* Player.swift */; };
 		0331AB9725E660440000702D /* SnakePart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0331AB9625E660440000702D /* SnakePart.swift */; };
 		033C45AD25E4F8F700B07C70 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C45AC25E4F8F700B07C70 /* AppDelegate.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0313546925EA507700B2B4BA /* UILabel+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+extensions.swift"; sourceTree = "<group>"; };
 		0331AB9225E65D6F0000702D /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		0331AB9625E660440000702D /* SnakePart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnakePart.swift; sourceTree = "<group>"; };
 		033C45A925E4F8F700B07C70 /* Snake3D.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Snake3D.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,6 +61,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0313546825EA505F00B2B4BA /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				0313546925EA507700B2B4BA /* UILabel+extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		033C45A025E4F8F700B07C70 = {
 			isa = PBXGroup;
 			children = (
@@ -78,6 +88,7 @@
 		033C45AB25E4F8F700B07C70 /* Snake3D */ = {
 			isa = PBXGroup;
 			children = (
+				0313546825EA505F00B2B4BA /* Extensions */,
 				03C4592325E95C1500561416 /* Controls */,
 				033C45C425E4FB2B00B07C70 /* GameObjects */,
 				033C45C225E4FAC800B07C70 /* Shaders */,
@@ -218,6 +229,7 @@
 				034A41A225E57EEE0067B410 /* Config.swift in Sources */,
 				03C4592525E95C3100561416 /* Alert.swift in Sources */,
 				0376110125E552FC0053143F /* Apple.swift in Sources */,
+				0313546A25EA507700B2B4BA /* UILabel+extensions.swift in Sources */,
 				03D887C625E50CBE0001FF66 /* Toolbox.swift in Sources */,
 				037610FE25E5409A0053143F /* Cube.swift in Sources */,
 				0331AB9725E660440000702D /* SnakePart.swift in Sources */,
