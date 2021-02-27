@@ -18,6 +18,7 @@
 		033C45C725E4FC5200B07C70 /* Snake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C45C625E4FC5200B07C70 /* Snake.swift */; };
 		033C45CB25E4FCE200B07C70 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C45CA25E4FCE200B07C70 /* Main.swift */; };
 		034A41A225E57EEE0067B410 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034A41A125E57EEE0067B410 /* Config.swift */; };
+		0350939E25EAEB5E0083AD08 /* Orbitron-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0350939D25EAEB5E0083AD08 /* Orbitron-Regular.ttf */; };
 		037610FE25E5409A0053143F /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037610FD25E5409A0053143F /* Cube.swift */; };
 		0376110125E552FC0053143F /* Apple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0376110025E552FC0053143F /* Apple.swift */; };
 		03C4592525E95C3100561416 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C4592425E95C3100561416 /* Alert.swift */; };
@@ -41,6 +42,7 @@
 		033C45C625E4FC5200B07C70 /* Snake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snake.swift; sourceTree = "<group>"; };
 		033C45CA25E4FCE200B07C70 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		034A41A125E57EEE0067B410 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		0350939D25EAEB5E0083AD08 /* Orbitron-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Orbitron-Regular.ttf"; sourceTree = "<group>"; };
 		037610FD25E5409A0053143F /* Cube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cube.swift; sourceTree = "<group>"; };
 		0376110025E552FC0053143F /* Apple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apple.swift; sourceTree = "<group>"; };
 		03C4592425E95C3100561416 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				033C45C225E4FAC800B07C70 /* Shaders */,
 				033C45C525E4FC2000B07C70 /* Views */,
 				033C45C325E4FADE00B07C70 /* Common */,
+				03B2C40C25EADDF1002498D2 /* Fonts */,
 				033C45B525E4F8F800B07C70 /* Assets.xcassets */,
 				033C45BA25E4F8F800B07C70 /* Info.plist */,
 			);
@@ -141,6 +144,14 @@
 				033C45CA25E4FCE200B07C70 /* Main.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		03B2C40C25EADDF1002498D2 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				0350939D25EAEB5E0083AD08 /* Orbitron-Regular.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		03C4592325E95C1500561416 /* Controls */ = {
@@ -210,6 +221,7 @@
 			files = (
 				033C45B925E4F8F800B07C70 /* LaunchScreen.storyboard in Resources */,
 				033C45B625E4F8F800B07C70 /* Assets.xcassets in Resources */,
+				0350939E25EAEB5E0083AD08 /* Orbitron-Regular.ttf in Resources */,
 				033C45B425E4F8F700B07C70 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

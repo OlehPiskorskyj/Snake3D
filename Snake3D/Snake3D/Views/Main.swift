@@ -17,6 +17,7 @@ class Main: UIViewController {
     private var alert: Alert? = nil
     private var score: Int = 0 {
         didSet {
+            /*
             if (score > 0) {
                 lblScore.text = String(format: "Score: %d", score)
                 if (lblScore.alpha == 0.0) {
@@ -27,6 +28,8 @@ class Main: UIViewController {
             } else {
                 lblScore.alpha = 0.0
             }
+            */
+            lblScore.text = String(format: "Score: %d", score)
         }
     }
     

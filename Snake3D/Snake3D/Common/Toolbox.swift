@@ -220,6 +220,10 @@ class Toolbox {
     }
     
     // MARK: - other methods
+    public static func appFont(size: CGFloat) -> UIFont {
+        return UIFont(name: "Orbitron-Regular", size: size) ?? UIFont.systemFont(ofSize: size)
+    }
+    
     public static func positionFromTerrainCell(i: Int, j: Int) -> CGPoint {
         let cellSize = Toolbox.terrainCellSize()
         let x = Float(i) * cellSize

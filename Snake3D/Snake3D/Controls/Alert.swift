@@ -12,7 +12,7 @@ class Alert: NSObject {
     // MARK: - constants
     public struct Consts {
         static let ALERT_WIDTH: CGFloat = 240.0
-        static let ALERT_HEIGHT: CGFloat = 160.0
+        static let ALERT_HEIGHT: CGFloat = 150.0
     }
         
     // MARK: - props
@@ -44,21 +44,21 @@ class Alert: NSObject {
         self.viewDialog.isHidden = true
         parent.addSubview(self.viewDialog)
         
-        Toolbox.addConstraints2View(view: self.viewDialog, parentView: parent, template: .centerXcenterYwidthHeight, value1: 0.0, value2: 0.0, value3: Consts.ALERT_WIDTH, value4: Consts.ALERT_HEIGHT)
+        Toolbox.addConstraints2View(view: self.viewDialog, parentView: parent, template: .centerXcenterYwidthHeight, value1: 0.0, value2: 5.0, value3: Consts.ALERT_WIDTH, value4: Consts.ALERT_HEIGHT)
         
         self.lblTitle.translatesAutoresizingMaskIntoConstraints = false
-        self.lblTitle.font = UIFont.systemFont(ofSize: 24.0)
+        self.lblTitle.font = Toolbox.appFont(size: 24.0)
         self.lblTitle.textAlignment = .center
         self.lblTitle.textColor = .white
         self.lblTitle.text = title
         self.viewDialog.addSubview(self.lblTitle)
         
-        Toolbox.addConstraints2View(view: self.lblTitle, parentView: self.viewDialog, template: .leftRightTopHeight, value1: 0.0, value2: 0.0, value3: 18.0, value4: 30.0)
+        Toolbox.addConstraints2View(view: self.lblTitle, parentView: self.viewDialog, template: .leftRightTopHeight, value1: 0.0, value2: 0.0, value3: 16.0, value4: 30.0)
         
         self.lblMessage.translatesAutoresizingMaskIntoConstraints = false
-        self.lblMessage.font = UIFont.systemFont(ofSize: 16.0)
+        self.lblMessage.font = Toolbox.appFont(size: 14.0)
         self.lblMessage.textAlignment = .center
-        self.lblMessage.textColor = .white
+        self.lblMessage.textColor = .lightGray
         self.lblMessage.text = message
         self.viewDialog.addSubview(self.lblMessage)
         
@@ -66,7 +66,7 @@ class Alert: NSObject {
         
         self.btnCancel.translatesAutoresizingMaskIntoConstraints = false
         self.btnCancel.addTarget(self, action: #selector(btnClick(sender:)), for: .touchUpInside)
-        self.btnCancel.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        self.btnCancel.titleLabel?.font = Toolbox.appFont(size: 18.0)
         self.btnCancel.setTitleColor(.red, for: .normal)
         self.btnCancel.setTitle(cancelTitle, for: .normal)
         self.btnCancel.backgroundColor = .clear
@@ -76,7 +76,7 @@ class Alert: NSObject {
         
         self.btnOk.translatesAutoresizingMaskIntoConstraints = false
         self.btnOk.addTarget(self, action: #selector(btnClick(sender:)), for: .touchUpInside)
-        self.btnOk.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        self.btnOk.titleLabel?.font = Toolbox.appFont(size: 18.0)
         self.btnOk.setTitleColor(.green, for: .normal)
         self.btnOk.setTitle(okTitle, for: .normal)
         self.btnOk.backgroundColor = .clear
