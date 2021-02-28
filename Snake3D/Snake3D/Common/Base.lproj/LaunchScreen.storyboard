@@ -21,22 +21,68 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Snake3D" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8gs-Ke-waU">
-                                <rect key="frame" x="123.5" y="418" width="167" height="60"/>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wpO-zB-abZ">
+                                <rect key="frame" x="113" y="44" width="188.5" height="128"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="nake" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jWr-O3-zkL">
+                                        <rect key="frame" x="30" y="34" width="98.5" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="1" id="2SN-bQ-Sak"/>
+                                            <constraint firstAttribute="height" constant="60" id="jyp-SG-MBx"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Orbitron-Regular" family="Orbitron" pointSize="36"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3D" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ds1-dW-mBL">
+                                        <rect key="frame" x="128.5" y="34" width="60" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="039-Gw-05m"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="1" id="Chx-DZ-eJa"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Orbitron-Regular" family="Orbitron" pointSize="36"/>
+                                        <color key="textColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="S" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XNf-5x-2xk">
+                                        <rect key="frame" x="0.0" y="34" width="30" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="1" id="W3w-kx-uBk"/>
+                                            <constraint firstAttribute="height" constant="60" id="l54-08-Kyy"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Orbitron-Regular" family="Orbitron" pointSize="36"/>
+                                        <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="85" id="3a5-iK-bYa"/>
-                                    <constraint firstAttribute="height" constant="60" id="7dq-1d-C0B"/>
+                                    <constraint firstItem="jWr-O3-zkL" firstAttribute="centerY" secondItem="wpO-zB-abZ" secondAttribute="centerY" id="1Y8-Nz-ROt"/>
+                                    <constraint firstItem="Ds1-dW-mBL" firstAttribute="centerY" secondItem="wpO-zB-abZ" secondAttribute="centerY" id="KOD-p1-Rcr"/>
+                                    <constraint firstItem="XNf-5x-2xk" firstAttribute="leading" secondItem="wpO-zB-abZ" secondAttribute="leading" id="LUO-uv-UCM"/>
+                                    <constraint firstAttribute="height" constant="128" id="UxB-j0-0EQ"/>
+                                    <constraint firstItem="Ds1-dW-mBL" firstAttribute="leading" secondItem="jWr-O3-zkL" secondAttribute="trailing" id="cMZ-sW-8fl"/>
+                                    <constraint firstItem="XNf-5x-2xk" firstAttribute="centerY" secondItem="wpO-zB-abZ" secondAttribute="centerY" id="eIy-f4-tb8"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ds1-dW-mBL" secondAttribute="trailing" id="h8C-Pi-flj"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="10" id="rkc-he-C2Q"/>
+                                    <constraint firstItem="jWr-O3-zkL" firstAttribute="leading" secondItem="XNf-5x-2xk" secondAttribute="trailing" id="wQT-Pn-GBl"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Orbitron-Regular" family="Orbitron" pointSize="32"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IconSplash" translatesAutoresizingMaskIntoConstraints="NO" id="a6g-6O-YdS">
+                                <rect key="frame" x="87" y="384" width="240" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="nr0-df-uQP"/>
+                                    <constraint firstAttribute="width" constant="240" id="vkL-Ls-zxW"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="8gs-Ke-waU" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="hxy-kZ-oaN"/>
-                            <constraint firstItem="8gs-Ke-waU" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="p2W-ca-1hD"/>
+                            <constraint firstItem="a6g-6O-YdS" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="1o1-ay-3s7"/>
+                            <constraint firstItem="wpO-zB-abZ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="4ac-za-Sc8"/>
+                            <constraint firstItem="a6g-6O-YdS" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="dwX-yx-BdA"/>
+                            <constraint firstItem="wpO-zB-abZ" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="pjV-kE-yUz"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -45,4 +91,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="IconSplash" width="482" height="202"/>
+    </resources>
 </document>
