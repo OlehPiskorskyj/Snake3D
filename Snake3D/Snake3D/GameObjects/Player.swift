@@ -51,6 +51,8 @@ class Player {
             
             let head = snake[0]
             let tail = snake[snake.count - 1]
+            let tailPrevColumn = tail.column
+            let tailPrevRow = tail.row
             
             switch mDirection {
             case .up:
@@ -64,10 +66,14 @@ class Player {
             }
             
             snake.remove(at: snake.count - 1)
-            snake.insert(tail, at: 0)
             
-            self.eatAppleTest()
-            self.collisionTest()
+            if (self.collisionTest(head: tail)) {
+                tail.setPosition(column: tailPrevColumn, row: tailPrevRow)
+                snake.append(tail)
+            } else {
+                snake.insert(tail, at: 0)
+                self.eatAppleTest()
+            }
         }
     }
 
@@ -92,12 +98,13 @@ class Player {
     }
     
     // MARK: - other methods
-    private func collisionTest() {
-        let head = snake[0]
+    private func collisionTest(head: SnakePart) -> Bool{
+        var returnValue = false
         
         // walls collision
         if (head.column > AppConsts.MAP_SIZE - 2 || head.column < 0
                 || head.row > AppConsts.MAP_SIZE - 2 || head.row < 0) {
+            returnValue = true
             self.gameOver?()
         }
         
@@ -105,9 +112,13 @@ class Player {
         for i in 1..<snake.count {
             let part = snake[i]
             if (head.column == part.column && head.row == part.row) {
+                returnValue = true
                 self.gameOver?()
+                break
             }
         }
+        
+        return returnValue
     }
     
     private func eatAppleTest() {
